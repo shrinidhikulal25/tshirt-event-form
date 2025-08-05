@@ -8,7 +8,7 @@ document.getElementById("tshirtForm").addEventListener("submit", function (e) {
   const qrSection = document.getElementById("qrSection");
   qrSection.style.display = "block";
 
-  const upiData = "upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi Kulal&am=1&cu=INR&tn=Tshirt";
+  const upiData = "upi://pay?pa=poojarydheeraj30-2@okhdfcbank&pn=Shrinidhi Kulal&am=1&cu=INR&tn=Tshirt";
 
   // ✅ FIX: Encode special characters for QR code
   QRCode.toCanvas(document.getElementById("upiQR"), encodeURI(upiData), function (error) {
