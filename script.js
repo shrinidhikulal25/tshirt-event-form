@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbzFG9oLcC_NTVQX9ahbCB3_OSkTRDCPAGqCRtf4gwR4NUghTxrLXO3PEx-VXLJ3W4G_/exec"; // replace with your actual Apps Script URL
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzFG9oLcC_NTVQX9ahbCB3_OSkTRDCPAGqCRtf4gwR4NUghTxrLXO3PEx-VXLJ3W4G_/exec';
 
 document.getElementById("tshirtForm").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -7,11 +7,10 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
   const gender = document.getElementById("gender").value;
   const size = document.getElementById("size").value;
 
-  // Show QR section
+  // Show QR and generate
   document.getElementById("qrSection").style.display = "block";
-
-  // Generate UPI QR for ₹1
   const upiUrl = `upi://pay?pa=shrinidhikulal25@oksbi&pn=ShrinidhiKulal&am=1&cu=INR`;
+
   QRCode.toCanvas(document.getElementById("upiQR"), upiUrl, function (error) {
     if (error) console.error(error);
   });
@@ -20,13 +19,13 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
   if (confirm("Please confirm you completed the payment.")) {
     try {
       const response = await fetch(scriptURL, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ name, gender, size }),
-        headers: { "Content-Type": "application/json" }
+        headers: { 'Content-Type': 'application/json' }
       });
 
       const result = await response.text();
-      alert("Submission successful!");
+      alert("Form submitted successfully!");
     } catch (error) {
       console.error("Error:", error);
       alert("Error submitting form!");
