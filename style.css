@@ -26,3 +26,13 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+#qrSection {
+  display: none;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px dashed #007BFF;
+  background-color: #f0f8ff;
+}
+#qrSection.show {
+  display: block;
+}
