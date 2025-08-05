@@ -7,7 +7,7 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
   const gender = document.getElementById("gender").value;
   const size = document.getElementById("size").value;
 
-  // Show QR and generate
+  // Show QR and generate UPI link
   document.getElementById("qrSection").style.display = "block";
   const upiUrl = `upi://pay?pa=shrinidhikulal25@oksbi&pn=ShrinidhiKulal&am=1&cu=INR`;
 
@@ -15,20 +15,23 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
     if (error) console.error(error);
   });
 
-  // Confirm payment
-  if (confirm("Please confirm you completed the payment.")) {
+  const confirmPayment = confirm("Please confirm you completed the payment.");
+
+  if (confirmPayment) {
     try {
       const response = await fetch(scriptURL, {
         method: 'POST',
-        body: JSON.stringify({ name, gender, size }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, gender, size })
       });
 
       const result = await response.text();
-      alert("Form submitted successfully!");
+      alert("Form submitted successfully: " + result);
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting form!");
+      console.error(error);
+      alert("Error submitting form.");
     }
   }
 });
