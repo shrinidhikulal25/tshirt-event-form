@@ -8,12 +8,14 @@ document.getElementById("tshirtForm").addEventListener("submit", function (e) {
   const qrSection = document.getElementById("qrSection");
   qrSection.style.display = "block";
 
-  const upiData = "upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi%20Kulal&am=1&cu=INR&tn=Tshirt";
+  const upiData = "upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi Kulal&am=1&cu=INR&tn=Tshirt";
 
-  QRCode.toCanvas(document.getElementById("upiQR"), upiData, function (error) {
+  // ✅ FIX: Encode special characters for QR code
+  QRCode.toCanvas(document.getElementById("upiQR"), encodeURI(upiData), function (error) {
     if (error) console.error(error);
   });
 
+  // Wait for user to confirm payment
   setTimeout(() => {
     if (confirm("Please confirm you completed the payment.")) {
       fetch("https://script.google.com/macros/s/AKfycbzFG9oLcC_NTVQX9ahbCB3_OSkTRDCPAGqCRtf4gwR4NUghTxrLXO3PEx-VXLJ3W4G_/exec", {
