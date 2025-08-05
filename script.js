@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzf2C-_XSfJVg7zDrX6fKWB3cpOFV91mtNszJQOVNO4BfppNB6fZ3oz2BcUVt-yob0Y/exec';
+const scriptURL = "https://script.google.com/macros/s/AKfycbzFG9oLcC_NTVQX9ahbCB3_OSkTRDCPAGqCRtf4gwR4NUghTxrLXO3PEx-VXLJ3W4G_/exec"; // replace with your actual Apps Script URL
 
 document.getElementById("tshirtForm").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -10,27 +10,26 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
   // Show QR section
   document.getElementById("qrSection").style.display = "block";
 
-  // Generate UPI QR (₹1)
+  // Generate UPI QR for ₹1
   const upiUrl = `upi://pay?pa=shrinidhikulal25@oksbi&pn=ShrinidhiKulal&am=1&cu=INR`;
   QRCode.toCanvas(document.getElementById("upiQR"), upiUrl, function (error) {
     if (error) console.error(error);
   });
 
-  // Ask user to confirm after payment
+  // Confirm payment
   if (confirm("Please confirm you completed the payment.")) {
-    // Send to Google Sheet
     try {
       const response = await fetch(scriptURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ name, gender, size }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" }
       });
 
       const result = await response.text();
       alert("Submission successful!");
-    } catch (err) {
-      console.error("Error:", err);
-      alert("Submission failed.");
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error submitting form!");
     }
   }
 });
