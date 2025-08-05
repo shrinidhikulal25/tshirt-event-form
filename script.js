@@ -21,9 +21,7 @@ document.getElementById("tshirtForm").addEventListener("submit", async function 
     try {
       const response = await fetch(scriptURL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, gender, size })
       });
 
