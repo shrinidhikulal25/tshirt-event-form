@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>T-Shirt Event Form</title>
-  <!-- ✅ Load QR Code library -->
+
+  <!-- Load QR code library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -38,10 +39,11 @@
       <button type="submit">Submit</button>
     </form>
 
-    <div id="qrSection" class="hidden">
+    <div id="qrSection" style="display: none;">
       <h3>Your Registration QR Code</h3>
       <p>Make your payment using the QR below:</p>
       <div id="upiQR"></div>
+      <p><a href="upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi%20Kulal&am=1&cu=INR" target="_blank">Click here to pay via UPI</a></p>
     </div>
   </div>
 

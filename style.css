@@ -33,6 +33,3 @@ button:hover {
   border: 1px dashed #007BFF;
   background-color: #f0f8ff;
 }
-#qrSection.show {
-  display: block;
-}

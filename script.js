@@ -6,9 +6,10 @@ document.getElementById("tshirtForm").addEventListener("submit", function (e) {
   const size = document.getElementById("size").value;
 
   const qrSection = document.getElementById("qrSection");
-  qrSection.classList.add("show");
+  qrSection.style.display = "block";
 
-  const upiData = `upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi Kulal&am=1&cu=INR&tn=Tshirt`;
+  const upiData = "upi://pay?pa=shrinidhikulal25@oksbi&pn=Shrinidhi%20Kulal&am=1&cu=INR&tn=Tshirt";
+
   QRCode.toCanvas(document.getElementById("upiQR"), upiData, function (error) {
     if (error) console.error(error);
   });
