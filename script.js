@@ -1,45 +1,52 @@
-document.getElementById("tshirtForm").addEventListener("submit", function (e) {
+// Replace with your Google Apps Script Web App URL
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzf2C-_XSfJVg7zDrX6fKWB3cpOFV91mtNszJQOVNO4BfppNB6fZ3oz2BcUVt-yob0Y/exec';
+
+const form = document.getElementById('tshirtForm');
+const qrSection = document.getElementById('qrSection');
+const qrCodeDiv = document.getElementById('qrCode');
+const upiQRDiv = document.getElementById('upiQR');
+
+form.addEventListener('submit', e => {
   e.preventDefault();
 
-  const form = this;
+  const name = document.getElementById('name').value;
+  const gender = document.getElementById('gender').value;
+  const size = document.getElementById('size').value;
 
-  // Payment simulation: Ask before proceeding
-  if (confirm("Have you completed the payment?")) {
-    const formData = new FormData(form);
-    formData.append("payment", "Paid");
+  const formData = new FormData(form);
 
-    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
-      method: "POST",
-      body: formData
-    })
-      .then((res) => res.text())
-      .then((data) => {
-        alert("Submission successful!");
+  fetch(scriptURL, { method: 'POST', body: formData })
+    .then(response => {
+      // Show QR Section after successful submission
+      qrSection.style.display = 'block';
 
-        // Generate QR code with user details
-        const name = form.name.value;
-        const gender = form.gender.value;
-        const size = form.size.value;
-        const qrData = `Name: ${name}\nGender: ${gender}\nSize: ${size}\nPayment: Paid`;
-
-        QRCode.toCanvas(document.getElementById("qrCode"), qrData, function (error) {
-          if (error) console.error(error);
-        });
-
-        // Show QR section and fake UPI QR code
-        document.getElementById("qrSection").style.display = "block";
-        document.getElementById("upiQR").innerHTML = `
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/BHIM_UPI_Logo.svg/320px-BHIM_UPI_Logo.svg.png" alt="UPI QR" width="200">
-          <p>UPI ID: example@upi</p>
-        `;
-
-        form.reset();
-      })
-      .catch((err) => {
-        alert("Failed to submit. Try again.");
-        console.error(err);
+      // QR Code for user details
+      const userDetails = `Name: ${name}\nGender: ${gender}\nSize: ${size}`;
+      QRCode.toCanvas(document.createElement('canvas'), userDetails, function (err, canvas) {
+        if (!err) {
+          qrCodeDiv.innerHTML = ''; // clear
+          qrCodeDiv.appendChild(canvas);
+        }
       });
-  } else {
-    alert("Please complete the payment first.");
-  }
+
+      // UPI QR with ₹1 fixed
+      const upiLink = `upi://pay?pa=shrinidhikulal25@oksbi&pn=TShirtEvent&am=1&cu=INR`;
+
+      QRCode.toDataURL(upiLink, function (err, url) {
+        if (!err) {
+          upiQRDiv.innerHTML = `
+            <p>Scan this to pay ₹1:</p>
+            <img src="${url}" width="200" />
+            <p>Or use UPI ID: <strong>shrinidhikulal25@oksbi</strong></p>
+            <p><a href="${upiLink}" target="_blank">Click to pay via UPI App</a></p>
+          `;
+        }
+      });
+
+      form.reset(); // clear form
+    })
+    .catch(error => {
+      alert('Error submitting form!');
+      console.error('Error!', error.message);
+    });
 });
